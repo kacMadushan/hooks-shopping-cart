@@ -1,24 +1,27 @@
 import React from 'react';
+import styled from 'styled-components';
+import { SecondaryButton } from '../utils/Button';
 
-const ProductListItem = ({ name, price }) => {
+const ProductListItem = ({ id, name, price, productAddToCartItem }) => {
   return (
-    <div>
-      <div>
-        <h5>{name}</h5>
-        <p>${price}</p>
-      </div>
-      <button>Add To Cart</button>
-    </div>
+    <Wrapper>
+      <ProductInfo>
+        <ProductName>{name}</ProductName>
+        <ProductPrice>${price}</ProductPrice>
+      </ProductInfo>
+      <SecondaryButton onClick={() => productAddToCartItem(id)}>Add To Cart</SecondaryButton>
+    </Wrapper>
   )
 }
 
-const ProductList = ({ products }) => {
+const ProductList = ({ items, productAddToCartItem }) => {
   let productElement = null;
-  if (products.length) {
-    productElement = products.map((product) => (
+  if (items.length) {
+    productElement = items.map((item) => (
       <ProductListItem
-        key={product.id}
-        {...product}
+        productAddToCartItem={productAddToCartItem}
+        key={item.id}
+        {...item}
       />
     ))
   }
@@ -26,5 +29,30 @@ const ProductList = ({ products }) => {
     <div>{productElement}</div>
   )
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  &:not(:last-of-type) {
+    padding-bottom: 12px;
+  }
+`;
+
+const ProductInfo = styled.div`
+  text-align: left;
+`;
+
+const ProductName = styled.h5`
+  font-weight: 700;
+  font-size: 1rem;
+`;
+
+const ProductPrice = styled.p`
+  font-weight: 400;
+  font-size: 1rem;
+`;
 
 export default ProductList;
