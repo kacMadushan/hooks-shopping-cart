@@ -1,25 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
-import { SecondaryButton } from '../utils/Button';
 
-const ProductListItem = ({ id, name, price, productAddToCartItem }) => {
+const ProductListItem = ({ id, name, price, handleAddToCartItem }) => {
   return (
-    <Wrapper>
-      <ProductInfo>
-        <ProductName>{name}</ProductName>
-        <ProductPrice>${price}</ProductPrice>
-      </ProductInfo>
-      <SecondaryButton onClick={() => productAddToCartItem(id)}>Add To Cart</SecondaryButton>
-    </Wrapper>
-  )
+    <div>
+      <div>
+        <h5>{name}</h5>
+        <p>${price}</p>
+      </div>
+      <button onClick={() => handleAddToCartItem(id)}>Add To Cart</button>
+    </div>
+  );
 }
 
-const ProductList = ({ items, productAddToCartItem }) => {
+const ProductList = ({ products, handleAddToCartItem }) => {
   let productElement = null;
-  if (items.length) {
-    productElement = items.map((item) => (
+  if (products.length) {
+    productElement = products.map((item) => (
       <ProductListItem
-        productAddToCartItem={productAddToCartItem}
+        handleAddToCartItem={handleAddToCartItem}
         key={item.id}
         {...item}
       />
@@ -27,32 +25,7 @@ const ProductList = ({ items, productAddToCartItem }) => {
   }
   return (
     <div>{productElement}</div>
-  )
+  );
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  &:not(:last-of-type) {
-    padding-bottom: 12px;
-  }
-`;
-
-const ProductInfo = styled.div`
-  text-align: left;
-`;
-
-const ProductName = styled.h5`
-  font-weight: 700;
-  font-size: 1rem;
-`;
-
-const ProductPrice = styled.p`
-  font-weight: 400;
-  font-size: 1rem;
-`;
 
 export default ProductList;
